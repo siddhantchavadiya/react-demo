@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-green-deployment  # Change deployment name for green deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app-green  # Change app label for green deployment
+  template:
+    metadata:
+      labels:
+        app: my-app-green  # Change app label for green deployment
+    spec:
+      containers:
+        - name: api
+          image: hiral12345/geen-api-deployment:latest  # Change image tag for green deployment
+          ports:
+            - containerPort: 4000
+        - name: client
+          image: hiral12345/react-client-green:latest  # Change image tag for green deployment
+          ports:
+            - containerPort: 3000

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: api
+          image: hiral12345/react-api:latest
+          ports:
+            - containerPort: 4000
+        - name: client
+          image: hiral12345/react-client:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - name: api-port
+      protocol: TCP
+      port: 80
+      targetPort: 4000  # For the API
+    - name: client-port
+      protocol: TCP
+      port: 81
+      targetPort: 3000  # For the client
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+spec:
+  rules:
+    - host: techvoot.lovestoblog.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: my-app-service
+                port:
+                  number: 80  # For the API
+          - path: /client
+            pathType: Prefix
+            backend:
+              service:
+                name: my-app-service
+                port:
+                  number: 81  # For the client

@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - techvoot.lovestoblog.com
+    secretName: my-app-tls-secret
+  rules:
+  - host: techvoot.lovestoblog.com
+    http:
+      paths:
+      - path: /client
+        pathType: Prefix
+        backend:
+          service:
+            name: my-app-service
+            port:
+              number: 81
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: my-app-service
+            port:
+              number: 80

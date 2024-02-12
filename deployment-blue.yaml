@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-blue-deployment  # Change deployment name for blue deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app-blue  # Change app label for blue deployment
+  template:
+    metadata:
+      labels:
+        app: my-app-blue  # Change app label for blue deployment
+    spec:
+      containers:
+        - name: api
+          image: hiral12345/react-api-blue:latest  # Change image tag for blue deployment
+          ports:
+            - containerPort: 4000
+        - name: client
+          image: hiral12345/react-client-blue:latest  # Change image tag for blue deployment
+          ports:
+            - containerPort: 3000
