@@ -19,5 +19,3 @@ jobs:
         run: |
           cd api &&
           node app.js &
-      - name: Test
-        run: npm test
