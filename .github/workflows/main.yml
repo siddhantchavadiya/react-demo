@@ -1,5 +1,4 @@
-
-name: Run app.js with PM2
+name: Node.js CI
 
 on:
   push:
@@ -7,27 +6,25 @@ on:
       - main
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - name: Change directory to api
-        run: cd api
-
       - name: Install dependencies
         run: npm install
 
-      - name: Install PM2
-        run: npm install pm2 -g
+      - name: Start Express server
+        run: |
+          cd api
+          node app.js &
 
-      - name: Start app.js with PM2
-        run: cd api && pm2 start app.js
-
+      - name: Test
+        run: npm test
