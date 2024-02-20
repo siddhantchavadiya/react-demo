@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.get('/', (req, res) => {
-  res.send('Home Route');
+  res.send('Home Route Backend is running.');
 });
 
 app.listen(port, () =>
