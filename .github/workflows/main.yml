@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: cd api && npm install --save-dev nodemon && npm run dev
+        run: cd api && npm install --save-dev nodemon && pm2 start app.js
 
       - name: Test
         run: npm test
@@ -38,9 +38,4 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY}}
           port: ${{ secrets.EC2_PORT }}
-          script: |
-            cd /home/ubuntu
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart all
+          
