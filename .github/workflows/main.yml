@@ -1,4 +1,5 @@
-name: CI/CD Pipeline
+
+name: Run app.js with PM2
 
 on:
   push:
@@ -6,36 +7,27 @@ on:
       - main
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
+      - name: Change directory to api
+        run: cd api
+
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: cd api && npm install --save-dev nodemon && pm2 start app.js
+      - name: Install PM2
+        run: npm install pm2 -g
 
-      - name: Test
-        run: npm test
+      - name: Start app.js with PM2
+        run: pm2 start app.js
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to AWS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY}}
-          port: ${{ secrets.EC2_PORT }}
-          
