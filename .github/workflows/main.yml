@@ -34,10 +34,10 @@ jobs:
       - name: Deploy to AWS
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          port: ${{ secrets.AWS_PORT }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY}}
+          port: ${{ secrets.EC2_PORT }}
           script: |
             cd /home/ubuntu
             git pull origin main
