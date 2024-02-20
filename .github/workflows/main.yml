@@ -29,5 +29,5 @@ jobs:
         run: npm install pm2 -g
 
       - name: Start app.js with PM2
-        run: pm2 start app.js
+        run: cd api && pm2 start app.js
 
