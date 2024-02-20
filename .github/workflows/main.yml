@@ -23,7 +23,7 @@ jobs:
 
       - name: Start Express server
         run: |
-          cd api
+          cd api &&
           node app.js &
 
       - name: Test
