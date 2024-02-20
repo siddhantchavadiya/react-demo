@@ -21,6 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
-        run: npm run start
+      - name: backend start
+        run: cd api
+        run: npm run dev
 
