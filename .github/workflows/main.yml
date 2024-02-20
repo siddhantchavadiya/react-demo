@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: cd api && npm run dev
+        run: cd api && npm install --save-dev nodemon && npm run dev
 
       - name: Test
         run: npm test
