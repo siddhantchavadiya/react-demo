@@ -1,52 +1,62 @@
 pipeline {
     agent any
-
-    environment {
-        KUBE_CONFIG = credentials('your-kube-config-credentials-id')
-    }
-
+    
     stages {
-        stage('Checkout') {
+        stage('Install dependencies') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Build and Push React Docker Image') {
-            steps {
-                script {
-                    // Build and push React Docker image
-                    dir('client') {
-                        docker.build("hiral12345/react_client:latest")
-                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
-                            docker.image("hiral12345/react_client:latest").push()
-                        }
-                    }
+                dir('frontend') {
+                    // Install frontend dependencies
+                    sh 'npm install'
+                }
+                dir('backend') {
+                    // Install backend dependencies
+                    sh 'npm install'
                 }
             }
         }
-
-        stage('Build and Push Node Docker Image') {
+        
+        stage('Build') {
             steps {
-                script {
-                    // Build and push Node Docker image
-                    dir('api') {
-                        docker.build("hiral12345/react_api:latest")
-                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
-                            docker.image("hiral12345/react_api:latest").push()
-                        }
-                    }
+                dir('frontend') {
+                    // Build frontend
+                    sh 'npm run build'
                 }
             }
         }
-
-        stage('Deploy to Kubernetes') {
+        
+        stage('Test') {
             steps {
-                script {
-                    // Use kubectl commands to deploy your application to Kubernetes
-                    sh "kubectl --kubeconfig=$KUBE_CONFIG apply -f deployment.yml"
+                dir('frontend') {
+                    // Test frontend
+                    sh 'npm test'
+                }
+                dir('backend') {
+                    // Test backend
+                    sh 'npm test'
                 }
             }
+        }
+        
+        stage('Deploy') {
+            steps {
+                dir('frontend') {
+                    // Start the React frontend
+                    sh 'npm run start &'
+                }
+                dir('backend') {
+                    // Start the Node.js backend
+                    sh 'npm run dev &'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Build succeeded!'
+        }
+        failure {
+            echo 'Build failed!'
         }
     }
 }
