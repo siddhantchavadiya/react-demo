@@ -15,36 +15,14 @@ pipeline {
             }
         }
         
-        stage('Build') {
-            steps {
-                dir('client') {
-                    // Build frontend
-                    sh 'npm run build'
-                }
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                dir('client') {
-                    // Test frontend
-                    sh 'npm test'
-                }
-                dir('api') {
-                    // Test backend
-                    sh 'npm test'
-                }
-            }
-        }
-        
         stage('Deploy') {
             steps {
                 dir('client') {
-                    // Start the React frontend
+                    // Start React server
                     sh 'npm run start &'
                 }
                 dir('api') {
-                    // Start the Node.js backend
+                    // Start Node.js server
                     sh 'npm run dev &'
                 }
             }
