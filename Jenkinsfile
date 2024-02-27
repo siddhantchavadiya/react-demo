@@ -4,11 +4,11 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                dir('frontend') {
+                dir('client') {
                     // Install frontend dependencies
                     sh 'npm install'
                 }
-                dir('backend') {
+                dir('api') {
                     // Install backend dependencies
                     sh 'npm install'
                 }
@@ -17,7 +17,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                dir('frontend') {
+                dir('client') {
                     // Build frontend
                     sh 'npm run build'
                 }
@@ -26,11 +26,11 @@ pipeline {
         
         stage('Test') {
             steps {
-                dir('frontend') {
+                dir('client') {
                     // Test frontend
                     sh 'npm test'
                 }
-                dir('backend') {
+                dir('api') {
                     // Test backend
                     sh 'npm test'
                 }
@@ -39,11 +39,11 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                dir('frontend') {
+                dir('client') {
                     // Start the React frontend
                     sh 'npm run start &'
                 }
-                dir('backend') {
+                dir('api') {
                     // Start the Node.js backend
                     sh 'npm run dev &'
                 }
