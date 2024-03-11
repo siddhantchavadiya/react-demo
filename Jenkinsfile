@@ -7,10 +7,12 @@ pipeline {
                 dir('client') {
                     // Install frontend dependencies
                     sh 'npm install'
+                    
                 }
                 dir('api') {
                     // Install backend dependencies
                     sh 'npm install'
+                    slackSend channel: 'jenkins_alert', message: 'started build job successfully '
                 }
             }
         }
