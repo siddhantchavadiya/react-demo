@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.get('/', (req, res) => {
-  res.send('Home Route Backend is running using cicd.');
+  res.send('Home Route Backend is running using poll SCM.');
 });
 
 app.listen(port, () =>
