@@ -6,6 +6,9 @@ pipeline {
             steps {
                 dir('client') {
                     // Install frontend dependencies
+                    sh 'apt update'
+                    sh 'apt install default-jre'
+
                     sh 'apt install npm'
                     
                 }
