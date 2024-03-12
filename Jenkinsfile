@@ -6,12 +6,12 @@ pipeline {
             steps {
                 dir('client') {
                     // Install frontend dependencies
-                    sh 'sudo apt install npm'
+                    sh 'apt install npm'
                     
                 }
                 dir('api') {
                     // Install backend dependencies
-                    sh 'sudo apt install npm'
+                    sh 'apt install npm'
                     slackSend channel: 'jenkins_alert', message: 'started build job successfully '
                 }
             }
