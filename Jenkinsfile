@@ -11,7 +11,7 @@ pipeline {
                 }
                 dir('api') {
                     // Install backend dependencies
-                    sh 'sudo apt install npm''
+                    sh 'sudo apt install npm'
                     slackSend channel: 'jenkins_alert', message: 'started build job successfully '
                 }
             }
